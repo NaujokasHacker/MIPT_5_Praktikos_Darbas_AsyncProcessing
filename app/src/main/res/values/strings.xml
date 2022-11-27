@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MIPT_5_Praktikos_Darbas_AsyncProcessing</string>
+    <string name="Kraunama">loading_data</string>
+    <string name="NaudojamaAsyncTask">usingAsyncTask</string>
+    <string name="MsgUsingThread">MsgUsingThread</string>
+    <string name="Pakrauta">Pakrauta</string>
+
 </resources>

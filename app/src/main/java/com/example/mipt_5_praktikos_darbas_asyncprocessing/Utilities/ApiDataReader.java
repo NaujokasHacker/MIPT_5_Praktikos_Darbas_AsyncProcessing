@@ -1,5 +1,7 @@
 package com.example.mipt_5_praktikos_darbas_asyncprocessing.Utilities;
 
+import android.util.Log;
+
 import com.example.mipt_5_praktikos_darbas_asyncprocessing.parsers.FloatRatesXmlParser;
 import com.example.mipt_5_praktikos_darbas_asyncprocessing.parsers.MeteoLtJsonParser;
 
@@ -13,10 +15,14 @@ public class ApiDataReader {
         InputStream apiContentStream = null;
         String result = "";
         try{
-            switch (apiCode){
+            switch ( apiCode){
                 case Constants.METEOLT_API_URL:
-                apiContentStream = downloadUrlContent(Constants.METEOLT_API_URL);
-                result = MeteoLtJsonParser.getKaunasWeatherForecast(apiContentStream);
+            Log.e("efg", "here1");
+            apiContentStream = downloadUrlContent(Constants.METEOLT_API_URL);
+            Log.e("efg", "here2");
+            result = MeteoLtJsonParser.getKaunasWeatherForecast(apiContentStream);
+            Log.e("efg", "here3");
+
                 break;
                 case Constants.FLOARATES_API_URL:
                     apiContentStream = downloadUrlContent(Constants.FLOARATES_API_URL);

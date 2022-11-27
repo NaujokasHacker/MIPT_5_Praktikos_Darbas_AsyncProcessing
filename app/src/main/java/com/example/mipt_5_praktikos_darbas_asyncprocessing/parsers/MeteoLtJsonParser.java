@@ -1,5 +1,6 @@
 package com.example.mipt_5_praktikos_darbas_asyncprocessing.parsers;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,12 +24,24 @@ public class MeteoLtJsonParser {
         try{
             JSONObject jData = new JSONObject(data);
             JSONObject placeNode = jData.getJSONObject("place");
-            JSONObject coordinatesNode = jData.getJSONObject("coordinates");
+
+            JSONObject coordinatesNode = placeNode.getJSONObject("coordinates");
+
+            JSONArray weather = jData.getJSONArray("forecastTimestamps");
+            JSONObject weather1 = weather.getJSONObject(0);
+
+
             String lat = coordinatesNode.getString("latitude");
             String lon = coordinatesNode.getString("longitude");
+
+            String time = weather1.getString("forecastTimeUtc");
+            String temp = weather1.getString("airTemperature");
+            String fLike = weather1.getString("feelsLikeTemperature");
+
             String administrativeDivision = placeNode.getString("administrativeDivision");
-            result = String.format("location name: %s,\n lat: %s,\n lon: %s", administrativeDivision, lat, lon);
-        }   catch (JSONException e){
+            result = String.format("location name: %s,\n lat: %s,\n lon: %s,\n forTimeUtc: %s,\n airTemp: %s,\n feelsLiketemp: %s", administrativeDivision, lat, lon, time, temp, fLike);
+        }
+        catch (JSONException e){
             e.printStackTrace();
         } return result;
     }

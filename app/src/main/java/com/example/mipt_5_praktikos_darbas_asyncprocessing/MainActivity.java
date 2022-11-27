@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.example.mipt_5_praktikos_darbas_asyncprocessing.Utilities.ApiDataReader;
 import com.example.mipt_5_praktikos_darbas_asyncprocessing.Utilities.AsyncDataLoader;
@@ -22,27 +23,27 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter listAdapter;
     private Switch swUseAsyncTask;
 
+    List<String> listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.lvItems = findViewById(R.id.lv_items);
-        this.tvStatus = findViewById(R.id.tv_status);
-        this.swUseAsyncTask = findViewById(R.id.sw_use_async_task);
+        this.lvItems = findViewById(R.id.lvItems);
+        this.tvStatus = findViewById(R.id.tvStatus);
+        this.swUseAsyncTask = findViewById(R.id.swUseAsyncTask);
 
-        this.listAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_list_item_1, new ArrayList<>());
-        this.lvItems.setAdapter(this.listAdapter);
     }
 
     public void onBtnGetDataClick(View view) {
-        this.tvStatus.setText(R.string.loading_data);
+        this.tvStatus.setText(R.string.Kraunama);
         if (this.swUseAsyncTask.isChecked()) {
             getDataByAsyncTask();
-            Toast.makeText(this, R.string.msg_using_async_task, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.NaudojamaAsyncTask, Toast.LENGTH_SHORT).show();
         } else {
             getDataByThread();
-            Toast.makeText(this, R.string.msg_using_thread, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.MsgUsingThread, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -50,13 +51,13 @@ public class MainActivity extends AppCompatActivity {
         new AsyncDataLoader() {
             @Override
             public void onPostExecute(String result) {
-                tvStatus.setText(getString(R.string.data_loaded) + result);
+                tvStatus.setText(getString(R.string.Pakrauta) + result);
             }
         }.execute(Constants.METEOLT_API_URL);
     }
 
     public void getDataByThread() {
-        this.tvStatus.setText(R.string.loading_data);
+        this.tvStatus.setText(R.string.Kraunama);
         Runnable getDataAndDisplayRunnable = new Runnable() {
             @Override
             public void run() {
@@ -65,7 +66,12 @@ public class MainActivity extends AppCompatActivity {
                     Runnable updateUIRunnable = new Runnable() {
                         @Override
                         public void run() {
-                            tvStatus.setText(getString(R.string.data_loaded) + result);
+                            List<String> listView;
+                            listView = new ArrayList<>();
+                            listView.add(result);
+                            listAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listView);
+                            lvItems.setAdapter(listAdapter);
+//                            tvStatus.setText(getString(R.string.Pakrauta) + result);
                         }
                     };
                     runOnUiThread(updateUIRunnable);
